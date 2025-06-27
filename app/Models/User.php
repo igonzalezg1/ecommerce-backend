@@ -49,4 +49,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class, 'user_id');
+    }
 }

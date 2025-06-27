@@ -13,4 +13,9 @@ class Venta extends Model
         'total',
         'fecha_venta',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

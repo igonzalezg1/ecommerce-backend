@@ -11,4 +11,9 @@ class Stock extends Model
         'cantidad',
         'ubicacion',
     ];
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
 }

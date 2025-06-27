@@ -14,4 +14,14 @@ class Producto extends Model
         'imagen',
         'activo',
     ];
+
+    public function detalleVentas()
+    {
+        return $this->hasMany(DetalleVentas::class, 'producto_id');
+    }
+
+    public function stock()
+    {
+        return $this->hasMany(Stock::class, 'producto_id');
+    }
 }

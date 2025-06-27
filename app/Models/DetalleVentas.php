@@ -12,4 +12,15 @@ class DetalleVentas extends Model
         'cantidad',
         'total_producto',
     ];
+
+
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class, 'venta_id');
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
 }
