@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
             'last_name'  => 'required|string|max:50',
             'email'      => 'required|email|unique:users,email',
             'password'   => 'required|string|min:6|confirmed',
-            'role'       => 'required|in:admin,cajero',
+            'role'       => 'required|in:admin,cliente,vendedor',
             'is_active'  => 'boolean',
         ];
     }
