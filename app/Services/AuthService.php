@@ -7,6 +7,7 @@ use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class AuthService.
@@ -36,10 +37,10 @@ class AuthService
         $user->currentAccessToken()->delete();
     }
 
-    public function register(array $data): Model
+    public function register(array $data): string
     {
+        $data['password'] = Hash::make($data['password']);
         $user = $this->userRepository->create($data);
-        $user->createToken('api-token')->plainTextToken;
-        return $user;
+        return $user->createToken('api-token')->plainTextToken;
     }
 }

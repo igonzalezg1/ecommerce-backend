@@ -7,6 +7,8 @@ use App\Http\Requests\Auth\AuthRequest;
 use App\Http\Requests\Auth\CreateRequest;
 use App\Services\AuthService;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class AuthController extends BaseController
@@ -18,7 +20,7 @@ class AuthController extends BaseController
     {
         $this->auth_service = $auth_service;
     }
-    public function login(AuthRequest $request)
+    public function login(AuthRequest $request): JsonResponse
     {
 
         try {
@@ -31,7 +33,7 @@ class AuthController extends BaseController
         }
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         try {
             $this->auth_service->logout($request->user());
@@ -41,14 +43,19 @@ class AuthController extends BaseController
         }
     }
 
-    public function register(CreateRequest $request)
+    public function register(CreateRequest $request): JsonResponse
     {
         try {
+            DB::beginTransaction();
+
             $data = $request->validated();
             $response_data = $this->auth_service->register($data);
 
+            DB::commit();
+
             return $this->responseOk($response_data, 'Usuario registrado correctamente');
         } catch (Exception $exception) {
+            DB::rollBack();
             return $this->responseError($exception->getMessage(), 500);
         }
     }
