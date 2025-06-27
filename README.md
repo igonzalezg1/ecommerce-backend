@@ -9,9 +9,12 @@ Este proyecto es una API base construida en **Laravel** con autenticación usand
 Sigue los pasos a continuación para correr el proyecto localmente:
 
 ```bash
+#🐘 Crear base de datos en MySQL
+CREATE DATABASE ecommerce CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 # Clona el repositorio
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+git clone https://github.com/igonzalezg1/ecommerce-backend.git
+cd ecommerce-backend
 
 # Copia el archivo de entorno
 cp .env.example .env
