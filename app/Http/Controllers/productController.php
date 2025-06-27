@@ -2,33 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\UserRequest;
-use App\Models\User;
-use App\Services\UserService;
+use App\Http\Requests\product\ProductRequest;
+use App\Models\Producto;
+use App\Services\ProductService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class UserController extends BaseController
+class ProductController extends BaseController
 {
+    protected ProductService $productService;
 
-    protected UserService $userService;
-
-    public function __construct(UserService $userService)
+    public function __construct(ProductService $productService)
     {
-        $this->userService = $userService;
+        $this->productService = $productService;
     }
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index(): JsonResponse
     {
         try {
             $filter = request()->input('filter', '');
             $paginate = request()->input('paginate', 5);
             $page = request()->input('page', 1);
-            $response_data = $this->userService->index($filter, $paginate, $page);
+            $response_data = $this->productService->index($filter, $paginate, $page);
 
-            return $this->responseok($response_data, 'Lista de usuarios obtenida correctamente');
+            return $this->responseOk($response_data, 'Lista de productos obtenida correctamente');
         } catch (Exception $exception) {
             return $this->responseError($exception->getMessage());
         }
@@ -37,15 +38,15 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request): JsonResponse
+    public function store(ProductRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            $response_data = $this->userService->store($data);
+            $response_data = $this->productService->store($data);
 
             DB::commit();
-            return $this->responseCreated($response_data, 'Usuario creado correctamente');
+            return $this->responseCreated($response_data, 'Producto creado correctamente');
         } catch (Exception $exception) {
             DB::rollBack();
             return $this->responseError($exception->getMessage());
@@ -55,15 +56,15 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, User $user): JsonResponse
+    public function update(ProductRequest $request, Producto $product): JsonResponse
     {
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            $response_data = $this->userService->update($data, $user);
+            $response_data = $this->productService->update($data, $product);
 
             DB::commit();
-            return $this->responseOk($response_data, 'Usuario actualizado correctamente');
+            return $this->responseOk($response_data, 'Producto actualizado correctamente');
         } catch (Exception $exception) {
             DB::rollBack();
             return $this->responseError($exception->getMessage());
@@ -73,14 +74,14 @@ class UserController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user): JsonResponse
+    public function destroy(Producto $product): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $response_data = $this->userService->destroy($user);
+            $response_data = $this->productService->destroy($product);
 
             DB::commit();
-            return $this->responseOk($response_data, 'Usuario eliminado correctamente');
+            return $this->responseOk($response_data, 'Producto eliminado correctamente');
         } catch (Exception $exception) {
             DB::rollBack();
             return $this->responseError($exception->getMessage());
