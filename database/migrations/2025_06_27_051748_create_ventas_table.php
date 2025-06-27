@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('iva', 10, 2);
             $table->decimal('total', 10, 2);
             $table->dateTime('fecha_venta')->useCurrent();
-            $table->string('estado')->default('pendiente'); // pendiente, completada, cancelada
+            $table->string('estado')->default('carrito'); // carrito,pendiente, completada, cancelada
             $table->timestamps();
         });
     }
